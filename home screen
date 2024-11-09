@@ -1,0 +1,113 @@
+#xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DFFFD6"
+    android:padding="16dp">
+
+    <!-- App title or header -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose a Quiz Topic"
+        android:textSize="24sp"
+        android:textColor="#004D40"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp" />
+
+    <!-- Container for topic cards -->
+    <LinearLayout
+        android:id="@+id/cardContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/title"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <!-- Nature Topic Card -->
+        <ImageButton
+            android:id="@+id/cardNature"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/nature" <!-- Replace with your image name -->
+        android:contentDescription="Nature"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="10dp" />
+
+        <!-- Science Topic Card -->
+        <ImageButton
+            android:id="@+id/cardScience"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/science" <!-- Replace with your image name -->
+        android:contentDescription="Science"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="10dp" />
+
+        <!-- Computer Science Topic Card -->
+        <ImageButton
+            android:id="@+id/cardComputerScience"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/computer" <!-- Replace with your image name -->
+        android:contentDescription="Computer Science"
+        android:scaleType="centerCrop" />
+    </LinearLayout>
+
+</RelativeLayout>
+
+
+#java
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class HomeActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+
+        // Set up card click listeners
+        Button cardNature = findViewById(R.id.cardNature);
+        Button cardScience = findViewById(R.id.cardScience);
+        Button cardComputerScience = findViewById(R.id.cardComputerScience);
+
+        cardNature.setOnClickListener(v -> startQuiz("Nature"));
+        cardScience.setOnClickListener(v -> startQuiz("Science"));
+        cardComputerScience.setOnClickListener(v -> startQuiz("Computer Science"));
+    }
+
+    private void startQuiz(String topic) {
+        Intent intent = new Intent(HomeActivity.this, QuizActivity.class);
+        intent.putExtra("topic", topic);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_history) {
+            startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}
